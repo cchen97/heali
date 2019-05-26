@@ -146,7 +146,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/heali/dev/1558835981141-2019-05-26T01:59:41.141Z/heali.zip"
+                "S3Key": "serverless/heali/dev/1558884575111-2019-05-26T15:29:35.111Z/heali.zip"
               },
               "FunctionName": "heali-dev-app",
               "Handler": "index.handler",
@@ -170,14 +170,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "AppLambdaVersionueaokfQ2YPPwPsFG3VR8syVxJmQ9cJS8uAVh3oYocE": {
+          "AppLambdaVersionF0mrTI3nV53iNuUhPjyLtMD78WWrKQcw3svjkIiBTRM": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "lbW7brVMgR0650KRN+6tuU3vEeBa62+GNpK8ifESgbU="
+              "CodeSha256": "pfYJif7WUvDwWIlV/+2wr09FqvkoyMD8Vo9GvPLKnzw="
             }
           },
           "ApiGatewayRestApi": {
@@ -295,7 +295,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1558835974912": {
+          "ApiGatewayDeployment1558884568194": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -387,7 +387,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionueaokfQ2YPPwPsFG3VR8syVxJmQ9cJS8uAVh3oYocE"
+              "Ref": "AppLambdaVersionF0mrTI3nV53iNuUhPjyLtMD78WWrKQcw3svjkIiBTRM"
             }
           },
           "ServiceEndpoint": {
@@ -498,7 +498,7 @@
     "artifact": "/Users/Charlene/Desktop/heali/servers/.serverless/heali.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/heali/dev/1558835981141-2019-05-26T01:59:41.141Z",
+    "artifactDirectoryName": "serverless/heali/dev/1558884575111-2019-05-26T15:29:35.111Z",
     "artifact": "heali.zip"
   }
 }
