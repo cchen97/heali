@@ -1,5 +1,5 @@
 import React from "react";
-import { FormGroup, Form, Label, Input, Button} from 'reactstrap';
+import { FormGroup, Form, Input, Button} from 'reactstrap';
 
 export default class PostIngredient extends React.Component {
     constructor(props) {
@@ -80,7 +80,5 @@ export default class PostIngredient extends React.Component {
             .catch(function(error) {
                 alert(error);
             });
-        
-        
     }
 }

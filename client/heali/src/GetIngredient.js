@@ -1,5 +1,5 @@
 import React from "react";
-import { FormGroup, Form, Label, Input, Table} from 'reactstrap';
+import { FormGroup, Form, Table} from 'reactstrap';
 import {Typeahead} from 'react-bootstrap-typeahead'; // ES2015
 
 export default class GetIngredient extends React.Component {
@@ -50,7 +50,7 @@ export default class GetIngredient extends React.Component {
                         id="key"
                         style={{ margin: '1 rem' }}
                         placeholder="Search Ingredient"
-                        onInputChange={(text) =>
+                        onInputChange={(text, evt) =>
                             this.handleGet(text)
                         }
                         options={this.state.allIngredients}
@@ -70,9 +70,7 @@ export default class GetIngredient extends React.Component {
                             <th scope="row">Ingredient</th>
                             <td>{this.state.text.toLowerCase()}</td>
                         </tr>
-                        
                         <TagList data={this.state.tags}/>
-                        
                     </tbody>
                 </Table>
             </div>
@@ -80,7 +78,6 @@ export default class GetIngredient extends React.Component {
     }
 
     handleGet(key){
-        console.log(key);
         if (key !== ""){
             fetch(`https://f5lyq94lv5.execute-api.us-east-1.amazonaws.com/dev/fuzzy-search/${key}`, {
                 method: "GET",
@@ -107,15 +104,11 @@ export default class GetIngredient extends React.Component {
                 .catch(function(error) {
                     alert(error);
                 });
-        
         }
     }
 }
 
 export class TagList extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render(){
         let tags = Object.keys(this.props.data);
         tags = tags.join(", ");
