@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  margin: 5%;
+  padding: 5%;
 }
 
 .App-logo {
@@ -35,3 +37,4 @@
 #key{
   margin-top: 10%;
 }
+

@@ -1,27 +1,59 @@
 import React from "react";
 import { FormGroup, Form, Label, Input, Table} from 'reactstrap';
+import {Typeahead} from 'react-bootstrap-typeahead'; // ES2015
 
 export default class GetIngredient extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             text:"",
-            tags:{}
+            tags:{},
+            allIngredients:[]
         }
+    }
+    componentDidMount() {
+        fetch(`https://f5lyq94lv5.execute-api.us-east-1.amazonaws.com/dev/ingredients`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin" : "*" 
+                },
+            })
+                .then(res => {
+                    if (res.ok > 200) {
+                        throw Error(res.statusText + " " + res.status);
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    if (data != null){
+                        var keyList = [];
+                        data.forEach(function(i) {
+                            keyList.push(i.key);
+                        });
+                        this.setState({
+                            allIngredients: keyList
+                        })
+                    }
+                })
+                .catch(function(error) {
+                    alert(error);
+                });
     }
     render(){
         return(
             <div className="container">
+            <div className="bg-info clearfix" style={{ padding: '.5rem', color: "white" }}>Search Ingredient</div>
             <Form>
                 <FormGroup>
-                    <Input
-                        type="text"
+                    <Typeahead
                         id="key"
                         style={{ margin: '1 rem' }}
                         placeholder="Search Ingredient"
-                        onChange={evt =>
-                            this.handleGet(evt.target.value)
+                        onInputChange={(text) =>
+                            this.handleGet(text)
                         }
+                        options={this.state.allIngredients}
                         required
                     />
                 </FormGroup>
@@ -58,7 +90,7 @@ export default class GetIngredient extends React.Component {
                 },
             })
                 .then(res => {
-                    if (!res.ok) {
+                    if (res.status > 200) {
                         throw Error(res.statusText + " " + res.status);
                     }
                     return res.json();
