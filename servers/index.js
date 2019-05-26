@@ -7,8 +7,16 @@ const util = require('./StringUtils');
 
 const INGREDIENTS_TABLE = process.env.INGREDIENTS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
-
 app.use(bodyParser.json({ strict: false }));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  next();
+});
+
 
 app.get('/', function (req, res) {
   res.send('Coding challenge for Heali done by Charlene Chen')
@@ -28,13 +36,32 @@ app.get('/ingredient/:key', function (req, res) {
         res.status(400).json({ error: 'Could not get ingredient' });
       }
       if (result.Item) {
-        const {key, text, tags} = result.Item;
-        res.status(200).json({key, text, tags});
+        res.status(200).send(JSON.stringify(result.Item));
       } else {
         console.log(result.Item);
         res.status(404).json({ error: "Ingredient not found" });
       }
     });
+})
+
+app.get('/ingredients', function (req, res) {
+  const params = {
+    TableName: INGREDIENTS_TABLE,
+  }
+  var items = [];
+  dynamoDb.scan(params, (error, result) => {
+    if (error) {
+      console.log(error);
+      res.status(400).json({ error: 'Could not get ingredient' });
+    }
+    if (result.Items) {
+      items = items.concat(result.Items);
+      res.status(200).send(JSON.stringify(items));
+    } else {
+      console.log(result.Item);
+      res.status(404).json({ error: "Ingredient not found" });
+    }
+  });
 })
 
 app.put('/add-ingredients', function (req, res) {
@@ -74,8 +101,7 @@ app.put('/add-ingredients', function (req, res) {
               res.status(400).json({ error: 'Could not get ingredient' });
             }
             if (result.Item) {
-              const {key, text, tags} = result.Item;
-              res.status(200).json({key, text, tags});
+              res.status(200).send(JSON.stringify(result.Item));
             } else {
               res.status(404).json({ error: "Ingredient not found" });
             }
@@ -100,8 +126,7 @@ app.get('/fuzzy-search/:input', function (req, res) {
           res.status(400).json({ error: 'Could not get ingredient' });
         }
         if (result.Item) {
-          const {text, tags} = result.Item;
-          res.status(200).json({text, tags});
+          res.status(200).send(JSON.stringify(result.Item));
         } else {
           console.log(result.Item);
           res.status(200).json(null);
